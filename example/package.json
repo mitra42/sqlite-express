@@ -1,0 +1,11 @@
+{
+  "name": "sqlite-express-package",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^3.2.4",
+    "debug": "^4.3.4",
+    "escape-html": "^1.0.3",
+    "js-yaml": "^4.1.0",
+    "sqlite3": "^5.1.6"
+  }
+}
