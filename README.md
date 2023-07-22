@@ -28,7 +28,7 @@ It is in the process of being turned into a module that can be imported.
 * Add package.json
   * Check if needs all dependencies and eliminate e.g. forEachSeries shouldn't be needed
   * Document index.js
-
 * Build simple example 
   * Include package.json for express etc
-* Test in mitra.biz
+* Testing
+  * Test in mitra.biz e.g. http://localhost:4250/?catid=31
