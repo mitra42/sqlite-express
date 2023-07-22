@@ -22,13 +22,14 @@ Integration to make it easy to integrate sqlite into sites using express
 See the repository issues for more detail
 
 This library, in its original form is in active use on www.mitra.biz. 
-It is in the process of being turned into a module that can be imported. 
+It is in the process of being turned into a module that can be imported and used by others.
 
 ### TODO 
 * Add package.json
   * Check if needs all dependencies and eliminate e.g. forEachSeries shouldn't be needed
   * Document index.js
 * Build simple example 
-  * Include package.json for express etc
+  * yaml2sqlite works from script but not yet writibg via sqlite api of Javascript
+    * note unclear what it takes to create a db in sqlite3
 * Testing
   * Test in mitra.biz e.g. http://localhost:4250/?catid=31

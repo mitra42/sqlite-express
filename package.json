@@ -8,6 +8,13 @@
     "js-yaml": "^4.1.0",
     "sqlite3": "^5.1.6"
   },
+  "devDependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  },
   "main": "index.js",
+  "scripts": {
+    "examplebuilddb": "node yaml2sqlite.js && sqlite3 example/sqlite.db <example/data.sql"
+  },
   "type": "module"
 }

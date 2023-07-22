@@ -6,17 +6,19 @@ import {waterfall, forEachSeries} from 'async';
 import escapeHtml from 'escape-html';
 import yaml from 'js-yaml'; // https://www.npmjs.com/package/js-yaml
 
-//const canonicaljson = require('@stratumn/canonicaljson');
+// Variable that holds the open db, used by most functions.
 let db = undefined;
+
+function openDB(dbpath, cb) {
+  db = new sqlite3.Database(dbpath, sqlite3.OPEN_READONLY, cb);
+}
+
 
 function updateObj(id, field, val, table, cb) {
   const sql = `UPDATE ${table} SET ${field} = '${val}' WHERE id = '${id}';`;
   //console.log(sql);
   db.all(sql, cb);
   //TODO figure out how to flush it - maybe make boolean and flush at caller if looping
-}
-function openDB(dbpath, cb) {
-  db = new sqlite3.Database(dbpath, sqlite3.OPEN_READONLY, cb);
 }
 function readObj(opts, cb) {
   /**
