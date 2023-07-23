@@ -1,8 +1,12 @@
 import yaml from 'js-yaml'; // https://www.npmjs.com/package/js-yaml
 import fs from 'fs'; // https://nodejs.org/api/fs.html#file-descriptors
+import {} from './index.js';
+import sqlite3 from 'sqlite3'; // https://github.com/TryGhost/node-sqlite3/wiki/API
+import async from 'async';
 
 const inputFilePathOrDescriptor =  fs.openSync('example/data.yaml','r'); // 'content.yaml'; // Read from stdin
-const outputFilePathOrDescriptor = fs.openSync('example/data.sql','w'); // Output
+//const outputFilePathOrDescriptor = fs.openSync('example/data.sql','w'); // Output
+const dbpath = 'example/sqlite.db'
 const contenttable = 'content';
 /*
 See https://stackabuse.com/reading-and-writing-json-files-with-node-js/
@@ -23,13 +27,10 @@ CREATE TABLE \`content\` (
 );
 `;
 
-function write(text) {
-  //console.log(text)
-  fs.writeFileSync(outputFilePathOrDescriptor,text);
-}
-
-function obj_to_sqlite(o) {
-  if (o !== null) { // It will be null if there is a trailing --- in the file
+function obj_to_sqlite(o,cb) {
+  if (o == null) { // It will be null if there is a trailing --- in the file
+    cb(null);
+  } else {
     // TODO parameterize this
     let { action='insert', id, title, alias, introtext, fulltext='', catid=1, created, metakey=''} = o;
     let inserting = ['insert', 'replace'].includes(action);
@@ -39,8 +40,9 @@ function obj_to_sqlite(o) {
     } else if (deleting && !(id)) {
       console.error('Bad obj - need id to delete', o);
     } else {
+      let x = ''
       if (deleting) {
-        write(`DELETE FROM ${contenttable} WHERE id = ${id};`);
+        x += `DELETE FROM ${contenttable} WHERE id = ${id};`;
       }
       if (inserting) {
         // TODO handle blank lines and turn into paragraphs
@@ -54,20 +56,30 @@ function obj_to_sqlite(o) {
         created = typeof(created) === 'string' ? created : created.toISOString();
         // TODO need a function in sqllib that produces this INSERT statement
         // Note fields in this write must match in order those in the CREATE statement above
-        write(`INSERT INTO content VALUES (${id}, '${title}', '${alias}', '${introtext}', '${fulltext}', ${catid},'${created}','${metakey}');`);
+        x += `INSERT INTO content VALUES (${id}, '${title}', '${alias}', '${introtext}', '${fulltext}', ${catid},'${created}','${metakey}');`;
       }
+      console.log(x);
+      db.exec(x, cb);
     }
   }
 }
-write(sqlstart);
-const doc = yaml.loadAll(
-  fs.readFileSync(inputFilePathOrDescriptor, 'utf8'),
-  (obj) => obj_to_sqlite(obj),
-  { onWarning: (warn) => console.log('Yaml warning:', warn) },
+let db;
+let obj;
+async.waterfall([
+    (cb) => { db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, cb)},
+    (cb) => {
+      console.log(sqlstart);
+      db.exec(sqlstart,cb)},
+    (cb) => fs.readFile(inputFilePathOrDescriptor, 'utf8', cb),
+    (yamldata,cb) => cb(null, yaml.loadAll(yamldata,{ onWarning: (warn) => console.log('Yaml warning:', warn) })),
+    (objdata,cb) => async.forEachSeries(objdata, obj_to_sqlite, cb ),
+  ],
+    (err) => { if (err) console.error(err); }
 );
-fs.closeSync(outputFilePathOrDescriptor);
+
 
 //TODO feed this straight to sqlite3 not via a shell script
+//TODO move some of this INTO index.js
 
 
 //TODO backport some of this to yaml2sqlite in mitra.biz
