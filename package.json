@@ -13,6 +13,7 @@
     "morgan": "^1.10.0"
   },
   "main": "index.js",
+  "repository": "https://github.com/mitra42/sqlite-express",
   "scripts": {
     "examplebuilddb": "node yaml2sqlite.js && sqlite3 example/sqlite.db <example/data.sql"
   },

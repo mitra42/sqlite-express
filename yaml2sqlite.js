@@ -14,6 +14,7 @@ https://www.json2yaml.com/
 https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started
 */
 
+// TODO this is not generic, its specific to my blog
 const sqlstart = `
 CREATE TABLE \`content\` (
   \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -21,17 +21,13 @@ Integration to make it easy to integrate sqlite into sites using express
 ## Current status and top TODO's
 See the repository issues for more detail
 
-This library, in its original form is in active use on www.mitra.biz. 
-It is in the process of being turned into a module that can be imported and used by others.
+This library, is in active use from www.mitra.biz.
+However it is not yet generic - that is work in progress.
 
-Library currently imports and runs in (not yet pushed) www.mitra.biz
 yaml2sqlite runs on the example 
 
 ### TODO 
-* Add package.json
-  * Check if needs all dependencies and eliminate e.g. forEachSeries shouldn't be needed
-  * Document index.js
+* Document index.js
 * Build simple example 
-* Yaml2sqlite should probably use stdin (file descriptor 0) instead of fixed path, should also delete existing sqlite.db 
+* Yaml2sqlite should use stdin (file descriptor 0) instead of fixed path, should also delete existing sqlite.db 
 * Testing
-  * Test in mitra.biz e.g. http://localhost:4250/?catid=31

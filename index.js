@@ -248,6 +248,8 @@ function escapeHtmlForRss(str) {
       .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // There is at least one case of a ^L in content
       // This line should match that in webcomponents - note order of href & title is important
       // <pdf-link href="/files/ijccr_mitra_final.pdf" title="IJCCR paper"/>
+      //TODO handle a-element including case where only have archive or archivedon or href but not all
+      //TODO use https://www.npmjs.com/package/@xmldom/xmldom for parsing and XMLSerializer to re-export
       .replace(/<pdf-link href="([^"]*)" title="([^"]*)" *\/>/g,
         '<a href="$1" target="_self" title="$2"><img src="/images/pdf icon.jpg" border="0" alt="$2" width="48" height="48" style="float: right;" /></a>')
       .replace(/<content-video src="(http[s]?:\/\/www.youtube.com[^"]*)" *><\/content-video>/g,
