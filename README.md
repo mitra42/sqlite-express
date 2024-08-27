@@ -31,3 +31,4 @@ yaml2sqlite runs on the example
 * Build simple example 
 * Yaml2sqlite should use stdin (file descriptor 0) instead of fixed path, should also delete existing sqlite.db 
 * Testing
+* Complete the demo example/index.html 

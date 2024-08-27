@@ -6,13 +6,12 @@ const debug = tempdebug('sqlite-express:Main');
 
 import express from 'express'; // http://expressjs.com/
 import morgan from 'morgan'; // https://www.npmjs.com/package/morgan - reasonable logging in syslog
-//import { appContent, appSelect, validateId, validateAlias, tagCloud, atom, rss, openDB } from 'sqlite-express';
 import { appContent, appSelect, validateId, validateAlias, tagCloud, atom, rss, openDB } from '../index.js';
-//TODO-MAIN look into unused functions in import from sqlite-express
+
 const config = {
   morgan: ':method :url :req[range] :status :res[content-length] :response-time ms :req[referer]',
   port: 4251,
-  dbpath: './sqlite.db',
+  dbpath: './sqlite.db', // Fixed location for database, could be changed or parameterised
 };
 const optionsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -21,14 +20,12 @@ const optionsHeaders = {
   // Needs: Range; User-Agent (for webtorrent); Not Needed: Authorization; Others are suggested in some online posts
   'Access-Control-Allow-Headers': 'Content-Type, Content-Length, Range, User-Agent, X-Requested-With',
 };
-// TODO-MAIN rewrite down - check which constants used and why
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
   server: 'express/sqlite-express',
   Connection: 'keep-alive',
   'Keep-Alive': 'timeout=5, max=1000', // Up to 5 seconds idle, 1000 requests max
 };
-// TODO-MAIN rewrite up - check which constants used and why
 
 // Instantiate an instance of express
 const app = express();

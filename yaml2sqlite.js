@@ -1,10 +1,10 @@
 import yaml from 'js-yaml'; // https://www.npmjs.com/package/js-yaml
 import fs from 'fs'; // https://nodejs.org/api/fs.html#file-descriptors
-import {} from './index.js';
+import {} from './index.js'; // Expand this as move some functions to index.js
 import sqlite3 from 'sqlite3'; // https://github.com/TryGhost/node-sqlite3/wiki/API
 import async from 'async';
 
-const inputFilePathOrDescriptor =  fs.openSync('example/data.yaml','r'); // 'content.yaml'; // Read from stdin
+const inputFilePathOrDescriptor =  fs.openSync('example/data.yaml','r'); // 'content.yaml'; // TODO Read from stdin
 //const outputFilePathOrDescriptor = fs.openSync('example/data.sql','w'); // Output
 const dbpath = 'example/sqlite.db'
 const contenttable = 'content';
@@ -14,7 +14,7 @@ https://www.json2yaml.com/
 https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started
 */
 
-// TODO this is not generic, its specific to my blog
+// TODO this is not generic, its specific to https://mitra.biz - > blog
 const sqlstart = `
 CREATE TABLE \`content\` (
   \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -65,7 +65,6 @@ function obj_to_sqlite(o,cb) {
   }
 }
 let db;
-let obj;
 async.waterfall([
     (cb) => { db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, cb)},
     (cb) => {

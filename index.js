@@ -1,4 +1,5 @@
 // Script to turn sql into json
+// TODO-DOCUMENT FROM HERE DOWN
 import sqlite3 from 'sqlite3';
 import tempdebug from 'debug';
 const debug = tempdebug('mitrabiz:sqllib');
@@ -18,7 +19,7 @@ function updateObj(id, field, val, table, cb) {
   const sql = `UPDATE ${table} SET ${field} = '${val}' WHERE id = '${id}';`;
   //console.log(sql);
   db.all(sql, cb);
-  //TODO figure out how to flush it - maybe make boolean and flush at caller if looping
+  //TODO figure out how to flush it - maybe make boolean and flush at caller if looping - I have no idea what this comment means !
 }
 function readObj(opts, cb) {
   /**
@@ -397,3 +398,4 @@ function fixup_joomla(dbpath) {
 // test()
 export { appContent, appSelect, appAlias, validateId, validateAlias, tagCloud, atom, rss,
   openDB, fixup_joomla, readObj };
+// TODO-DOCUMENT FROM HERE UP
